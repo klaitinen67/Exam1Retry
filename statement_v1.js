@@ -72,8 +72,8 @@ invoice = require('./invoice.json')
 plays = require('./plays.json')
 
 function statement(invoice, plays) {
-    let totalAmount = 0;
     let volumeCredits = 0;
+    let totalAmount = 0;
     let result = `Statement for ${invoice.customer}\n`;
     const format = formatCurrency();
     for (let perf of invoice.performances) {
