@@ -15,12 +15,12 @@
 // I recommend first playing with https://jsfiddle.net to get a little more comfortable with JavaScript
 //   create json inputs for plays and invoice, e.g.
 // let plays = require("./plays.json") // alternative to reading the .json file is to assign the value in this file 
-let plays =
-{
-    "hamlet": { "name": "Hamlet", "type": "tragedy" },
-    "as-like": { "name": "As You Like It", "type": "comedy" },  // make sure the as-like key has the hyphen
-    "othello": { "name": "Othello", "type": "tragedy" }
-}
+// let plays =
+// {
+//     "hamlet": { "name": "Hamlet", "type": "tragedy" },
+//     "as-like": { "name": "As You Like It", "type": "comedy" },  // make sure the as-like key has the hyphen
+//     "othello": { "name": "Othello", "type": "tragedy" }
+// }
 
 
 //   before unit testing, e.g. with statement.test.js, create plays.json, and a couple sample invoice inputs, e.g. 
@@ -49,34 +49,30 @@ let plays =
 /* function from Refactor Text */
 // create invoice  - need to remove the first square brackets from invoice or change the code the access the first element of invoice
 // let invoice = require("./invoice.json") // alternative to reading the .json file is to assign the value in this file
-let invoice =
-{
-    customer: "BigCo",
-    performances: [
-        {
-            playID: "hamlet",
-            audience: 55
-        },
-        {
-            playID: "as-like",
-            audience: 35
-        },
-        {
-            playID: "othello",
-            audience: 40
-        }
-    ]
-}
+// let invoice =
+// {
+//     customer: "BigCo",
+//     performances: [
+//         {
+//             playID: "hamlet",
+//             audience: 55
+//         },
+//         {
+//             playID: "as-like",
+//             audience: 35
+//         },
+//         {
+//             playID: "othello",
+//             audience: 40
+//         }
+//     ]
+// }
 
 function statement(invoice, plays) {
     let totalAmount = 0;
     let volumeCredits = 0;
     let result = `Statement for ${invoice.customer}\n`;
-    const format = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2,
-    }).format;
+    const format = formatCurrency();
     for (let perf of invoice.performances) {
         const play = plays[perf.playID];
         let thisAmount = 0;
@@ -116,6 +112,14 @@ function statement(invoice, plays) {
 let stmt = statement(invoice, plays)
 console.log(stmt)
 
+
+function formatCurrency() {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+    }).format;
+}
 // or export it
 // module.exports = statement
 // run it in another file
