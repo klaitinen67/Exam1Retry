@@ -81,7 +81,8 @@ function statement(invoice, plays) {
         let thisAmount = 0;
         thisAmount = switchFunction(play, thisAmount, perf);
         // add volume credits
-        ({ volumeCredits, result } = convertCredits(volumeCredits, perf, play, result, format, thisAmount));
+        volumeCredits = convertCredits(volumeCredits, perf, play, format, thisAmount);
+        result += ` ${play.name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
         totalAmount += thisAmount;
     }
     result += `Amount owed is ${format(totalAmount / 100)}\n`;
@@ -89,19 +90,22 @@ function statement(invoice, plays) {
     return result;
 }
 
-
 // you can either run the statement function directly from this file 
+
+invoice = require('./invoice.json')
+plays = require('./plays.json')
+
 let stmt = statement(invoice, plays)
 console.log(stmt)
 
 
-function convertCredits(volumeCredits, perf, play, result, format, thisAmount) {
+function convertCredits(volumeCredits, perf, play, format, thisAmount) {
     volumeCredits += Math.max(perf.audience - 30, 0);
     // add extra credit for every ten comedy attendees
     if ('comedy' === play.type) volumeCredits += Math.floor(perf.audience / 5);
     // print line for this order
-    result += ` ${play.name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
-    return { volumeCredits, result };
+    // result += ` ${play.name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
+    return volumeCredits;
 }
 
 function switchFunction(play, thisAmount, perf) {
